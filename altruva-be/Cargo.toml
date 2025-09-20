@@ -1,9 +1,9 @@
 [package]
-name = "altruix-backend"
+name = "altruva-backend"
 version = "0.1.0"
 edition = "2024"
 authors = ["Jason <jason@elg.gg>"]
-repository = "https://github.com/Santiago868/Techhub-2025-Hackathon/tree/main/altruix-be"
+repository = "https://github.com/Santiago868/Techhub-2025-Hackathon/tree/main/altruva-be"
 
 [dependencies]
 rocket = { version = "0.5.1", features = ["tls", "json"] }
