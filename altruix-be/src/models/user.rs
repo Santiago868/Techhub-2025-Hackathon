@@ -1,12 +1,16 @@
 use crate::models::cause::Cause;
+use serde::{Deserialize, Serialize};
+use surreal_socket::dbrecord::{DBRecord, SsUuid};
 
-struct User {
-    name: String,
-    username: String,
-    interests: Vec<Cause>,
+#[derive(Deserialize, Serialize)]
+pub struct User {
+    pub uuid: SsUuid<User>,
+    pub name: String,
+    pub username: String,
+    pub interests: Vec<Cause>,
 
     #[allow(dead_code)] // hackathon
-    password_hash: String,
+    pub password_hash: String,
 }
 
 #[derive(serde::Serialize, utoipa::ToSchema)]
@@ -23,5 +27,13 @@ impl From<User> for UserResponse {
             username: user.username,
             interests: user.interests,
         }
+    }
+}
+
+impl DBRecord for User {
+    const TABLE_NAME: &'static str = "users";
+
+    fn uuid(&self) -> SsUuid<Self> {
+        self.uuid.clone()
     }
 }

@@ -11,3 +11,6 @@ tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"] }
 utoipa = "5.4.0"
 utoipa-rapidoc = "6.0.0"
 serde = "1.0.225"
+dotenvy = "0.15.7"
+surrealdb = "2.3.10"
+surreal_socket = { git = "https://github.com/Elgenzay/surrealsocket.git" }

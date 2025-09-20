@@ -13,7 +13,7 @@ use crate::{ErrorResponse, models::cause::Cause};
     security(),
     tag = ""
 )]
-#[rocket::get("/login")]
+#[rocket::get("/causes")]
 pub fn causes() -> Result<Json<CausesResponse>, status::Custom<Json<ErrorResponse>>> {
     Ok(Json(CausesResponse {
         causes: vec![

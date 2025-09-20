@@ -1,6 +1,10 @@
 use rocket::{response::status, serde::json::Json};
+use surreal_socket::dbrecord::DBRecord;
 
-use crate::{ErrorResponse, models::cause::Cause, models::user::UserResponse};
+use crate::{
+    ErrorResponse,
+    models::user::{User, UserResponse},
+};
 
 /// Log in
 #[utoipa::path(
@@ -16,7 +20,7 @@ use crate::{ErrorResponse, models::cause::Cause, models::user::UserResponse};
     tag = ""
 )]
 #[rocket::post("/login", data = "<request>")]
-pub fn login(
+pub async fn login(
     request: Json<LoginRequest>,
 ) -> Result<Json<LoginResponse>, status::Custom<Json<ErrorResponse>>> {
     if request.password != "password" {
@@ -28,46 +32,44 @@ pub fn login(
         ));
     }
 
-    match request.username.as_str() {
-        "chris" => Ok(Json(LoginResponse {
-            access_token: "w5nnRh8P3VyxJZuVk3xQVYsnfU9RvUzMo8Yd5Yb5fXDp3do2Xb78w3P2t5LQe375"
-                .to_string(),
-            user: UserResponse {
-                name: "Chris".to_string(),
-                username: "chris".to_string(),
-                interests: vec![
-                    Cause::AssistingAtFoodBanks,
-                    Cause::TreePlantingAndCommunityGardening,
-                ],
-            },
-        })),
-        "arnau" => Ok(Json(LoginResponse {
-            access_token: "JepxMnW6Gy2A4rbwufLt9DBTcLDHmXAF4r38DAvaP5eCAFLB4xmgBcd3qsP6Z5pE"
-                .to_string(),
-            user: UserResponse {
-                name: "Arnau".to_string(),
-                username: "arnau".to_string(),
-                interests: vec![Cause::MentalHealthPeerSupportGroups, Cause::FosteringPets],
-            },
-        })),
-        "michelle" => Ok(Json(LoginResponse {
-            access_token: "7j8RYjzbs9yx4DKBGtMjEA77HdiNHUroiKpC57tNhDUyixTUWYDmUUSyGoEJzQ42"
-                .to_string(),
-            user: UserResponse {
-                name: "Michelle".to_string(),
-                username: "michelle".to_string(),
-                interests: vec![
-                    Cause::HospitalVolunteeringNonMedicalSupport,
-                    Cause::DisasterResponseVolunteeringSupplyDistributionShelterSupport,
-                ],
-            },
-        })),
-        _ => Err(status::Custom(
+    let client = crate::surrealdb_client().await.unwrap();
+    let all_users = User::db_all(&client).await.unwrap();
+
+    // fake oauth. hackathon
+    if let Some(user) = all_users
+        .into_iter()
+        .find(|u| u.username == request.username)
+    {
+        match user.username.as_str() {
+            "chris" => Ok(Json(LoginResponse {
+                access_token: "w5nnRh8P3VyxJZuVk3xQVYsnfU9RvUzMo8Yd5Yb5fXDp3do2Xb78w3P2t5LQe375"
+                    .to_string(),
+                user: user.into(),
+            })),
+            "arnau" => Ok(Json(LoginResponse {
+                access_token: "JepxMnW6Gy2A4rbwufLt9DBTcLDHmXAF4r38DAvaP5eCAFLB4xmgBcd3qsP6Z5pE"
+                    .to_string(),
+                user: user.into(),
+            })),
+            "michelle" => Ok(Json(LoginResponse {
+                access_token: "7j8RYjzbs9yx4DKBGtMjEA77HdiNHUroiKpC57tNhDUyixTUWYDmUUSyGoEJzQ42"
+                    .to_string(),
+                user: user.into(),
+            })),
+            _ => Err(status::Custom(
+                rocket::http::Status::Unauthorized,
+                Json(ErrorResponse {
+                    error: "Invalid username or password".to_string(),
+                }),
+            )),
+        }
+    } else {
+        Err(status::Custom(
             rocket::http::Status::Unauthorized,
             Json(ErrorResponse {
                 error: "Invalid username or password".to_string(),
             }),
-        )),
+        ))
     }
 }
 
