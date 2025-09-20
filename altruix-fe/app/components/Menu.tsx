@@ -16,9 +16,14 @@ export default function Menu() {
               Admin
             </Link>
           </li>
-          <li className="ml-auto">
+          <li>
             <Link to="/login" className="hover:text-gray-300 transition-colors">
               Login
+            </Link>
+          </li>
+             <li className="ml-auto">
+            <Link to="/logout" className="hover:text-gray-300 transition-colors">
+              Logout
             </Link>
           </li>
         </ul>

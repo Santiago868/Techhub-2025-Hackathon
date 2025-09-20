@@ -1,12 +1,6 @@
 import { z } from 'zod';
+import { organizationSchema } from './orgScehma';
 
-export const organizationSchema = z.object({
-  uuid: z.string(),
-  name: z.string(),
-  causes: z.array(z.string()),
-  location: z.string(),
-  sponsoring: z.array(z.any()),
-});
 
 export const sponsorSchema = z.object({
   uuid: z.string(),
@@ -32,7 +26,6 @@ export const eventsResponseSchema = z.object({
   events: z.array(eventSchema),
 });
 
-export type Organization = z.infer<typeof organizationSchema>;
 export type Sponsor = z.infer<typeof sponsorSchema>;
 export type Event = z.infer<typeof eventSchema>;
 export type EventsResponse = z.infer<typeof eventsResponseSchema>;
