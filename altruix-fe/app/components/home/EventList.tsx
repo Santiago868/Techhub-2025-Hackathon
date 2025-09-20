@@ -49,7 +49,7 @@ export default function EventList({
     <div className="event-list space-y-4">
       {events.map((event, index) => (
         <Card 
-          key={event.id || index} 
+          key={event.uuid || index} 
           className="hover:shadow-md transition-shadow cursor-pointer"
           onClick={() => onEventClick?.(event)}
         >
