@@ -3,6 +3,8 @@ import type { Route } from "./+types/admin.$id";
 import { useLoaderData } from "react-router";
 import { getSession } from "~/sessions.server";
 import { getCauses } from "~/utils/getCauses";
+// import { getOrganizations } from "~/utils/getOrganizations";
+import { getEvents } from "~/utils/eventsUtils";
 
 export async function loader({ request, params }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -16,10 +18,13 @@ export async function loader({ request, params }: Route.LoaderArgs) {
     console.error("Failed to fetch causes:", error);
     causes = { causes: [] };
   }
+
+  const allEvents = await getEvents();
   
   return {
     user,
     causes,
+    allEvents,
   };
 }
 
@@ -31,7 +36,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function AdminPage() {
-  const { user, causes } = useLoaderData<typeof loader>();
+  const { user, causes, allEvents } = useLoaderData<typeof loader>();
   
   return (
     <div>
@@ -41,6 +46,7 @@ export default function AdminPage() {
       <Admin
         user={user}
         causes={causes}
+        allEvents={allEvents}
       />
     </div>
   );
