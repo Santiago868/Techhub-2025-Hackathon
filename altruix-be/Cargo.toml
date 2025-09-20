@@ -8,3 +8,5 @@ repository = "https://github.com/Santiago868/Techhub-2025-Hackathon/tree/main/al
 [dependencies]
 rocket = { version = "0.5.1", features = ["tls", "json"] }
 tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"] }
+utoipa = "5.4.0"
+utoipa-rapidoc = "6.0.0"
