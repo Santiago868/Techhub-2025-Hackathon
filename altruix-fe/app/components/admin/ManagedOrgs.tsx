@@ -51,11 +51,11 @@ export default function ManagedOrgs({ userOrgs, allEvents }: ManagedOrgsProps) {
               <div className="space-y-3">
                 <h5 className="text-md font-medium text-gray-700">Sponsored Events:</h5>
                 {orgEvents.map(event => (
-                  <div key={event.uuid} className="bg-gray-50 border rounded-lg p-3 hover:shadow-md transition-shadow">
-                    <div className="flex justify-between items-start mb-2">
+                  <div key={event.uuid} className="border-0 border-gray-300 rounded-xl bg-white/30 backdrop-blur-lg p-3 hover:shadow-md transition-shadow">
+                    <div className="flex justify-between items-start mb-2 ">
                       <Link 
                         to={`/event/${event.uuid}`}
-                        className="text-md font-semibold text-blue-600 hover:text-blue-800 transition-colors"
+                        className="text-md font-semibold text-blue-600 hover:text-blue-800 transition-colors "
                       >
                         {event.name}
                       </Link>

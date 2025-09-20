@@ -29,7 +29,7 @@ export default function Calendar (
   };
 
   return (
-    <div className="calendar">
+    <div className="calendar w-full flex flex-col justify-center items-center">
       <ShadcnCalendar
         mode="single"
         selected={date}

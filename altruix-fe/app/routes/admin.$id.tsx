@@ -40,9 +40,9 @@ export default function AdminPage() {
   
   return (
     <div>
-      {user && (
+      {/* {user && (
         <p>Welcome, {user.name || user.username}!</p>
-      )}
+      )} */}
       <Admin
         user={user}
         causes={causes}
