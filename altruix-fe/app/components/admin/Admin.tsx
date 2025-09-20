@@ -7,7 +7,6 @@ import UserEvents from './UserEvents';
 import Points from '../Points';
 import type { Event } from '~/schemas/eventsSchema';
 
-
 export default function Admin({
   user,  
   causes,
@@ -71,16 +70,16 @@ export default function Admin({
   //   console.log('Date selected:', date);
   // };
   
-  const glassStyle = "border-0 border-gray-300 rounded-xl bg-white/30 backdrop-blur-lg p-6"
+  const glassStyle = "border-2 border-gray-300 rounded-xl bg-white/30 bg-transparent backdrop-blur-lg shadow-lg p-6 ";
 
     return (
-        <div className=" p-4 bg-[#87CEEB] -mt-4">
+        <div className=" p-4  bg-white -mt-4">
           <div className='text-center'>
             <h1 className="text-4xl font-bold mb-6">Admin Dashboard</h1>
             
             {user && (
                 <div className="mb-8">
-                    <div className="flex justify-between items-start mb-4">
+                    <div className="flex justify-center items-start mb-4 text-center">
                         <div>
                             <p className="text-lg">Welcome, {user.name}!</p>
                             <p className="text-sm text-gray-600">
@@ -96,21 +95,27 @@ export default function Admin({
                 </div>
             )}
           </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {isEventAttendee && (
-                    <div className={`${glassStyle}`}>
+                              <div className="grid grid-cols-1 gap-6 mb-8">
+
+                    <div className={`${glassStyle} `}>
                         <h2 className="text-2xl font-semibold mb-4 text-blue-600">My Events</h2>
                         <UserEvents userEvents={userEvents} />
+                    </div>
+
                     </div>
                 )}
 
                 {isOrgManager && (
+                              <div className="grid grid-cols-1 gap-6 mb-8">
+
                     <div className={`${glassStyle}`}>
                         <h2 className="text-2xl font-semibold mb-4 text-purple-600">Managed Organizations</h2>
                         <ManagedOrgs userOrgs={managedOrgs} allEvents={allEvents} />
                     </div>
+                                  </div>
+
                 )}
-              </div>
               <div className="grid grid-cols-1 gap-6 my-8">
                 {(isEventAttendee || isOrgManager) && (
                     <div className={`${glassStyle} text-left`}>
@@ -126,7 +131,7 @@ export default function Admin({
                 )}
 
                 {(isEventAttendee || isOrgManager) && (
-                    <div className="bg-white rounded-lg shadow-md p-6 border">
+                    <div className={`${glassStyle}`}>
                         <h2 className="text-2xl font-semibold mb-4 text-yellow-600">My Points</h2>
                         <Points points={user?.points || 0} variant="card" size="medium" />
                     </div>
