@@ -1,4 +1,4 @@
-use crate::models::cause::Cause;
+use crate::models::{cause::Cause, event::Event};
 use serde::{Deserialize, Serialize};
 use surreal_socket::dbrecord::{DBRecord, SsUuid};
 
@@ -9,9 +9,41 @@ pub struct User {
     pub username: String,
     pub interests: Vec<Cause>,
     pub manages_orgs: Vec<SsUuid<crate::models::organization::Organization>>,
+    pub events_attending: Vec<SsUuid<crate::models::event::Event>>,
+    pub points: i64,
 
     #[allow(dead_code)] // hackathon
     pub password_hash: String,
+}
+
+impl User {
+    pub async fn into_response(self) -> UserResponse {
+        let client = crate::surrealdb_client().await.unwrap();
+        let mut manages_orgs = Vec::new();
+
+        for org_id in &self.manages_orgs {
+            if let Ok(org) = org_id.db_fetch(&client).await {
+                manages_orgs.push(org.into());
+            }
+        }
+
+        let mut events_attending = Vec::new();
+
+        for event in Event::db_all(&client).await.unwrap() {
+            if event.attendees.contains(&self.uuid) {
+                events_attending.push(event.uuid.to_uuid_string());
+            }
+        }
+
+        UserResponse {
+            name: self.name,
+            username: self.username,
+            interests: self.interests,
+            manages_orgs,
+            events_attending,
+            points: self.points,
+        }
+    }
 }
 
 #[derive(serde::Serialize, utoipa::ToSchema)]
@@ -19,16 +51,9 @@ pub struct UserResponse {
     pub name: String,
     pub username: String,
     pub interests: Vec<Cause>,
-}
-
-impl From<User> for UserResponse {
-    fn from(user: User) -> Self {
-        UserResponse {
-            name: user.name,
-            username: user.username,
-            interests: user.interests,
-        }
-    }
+    pub manages_orgs: Vec<crate::models::organization::OrganizationResponse>,
+    pub events_attending: Vec<String>,
+    pub points: i64,
 }
 
 impl DBRecord for User {

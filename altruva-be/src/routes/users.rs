@@ -36,41 +36,35 @@ pub async fn login(
     let all_users = User::db_all(&client).await.unwrap();
 
     // fake oauth. hackathon
-    if let Some(user) = all_users
-        .into_iter()
-        .find(|u| u.username == request.username)
-    {
-        match user.username.as_str() {
-            "chris" => Ok(Json(LoginResponse {
-                access_token: "w5nnRh8P3VyxJZuVk3xQVYsnfU9RvUzMo8Yd5Yb5fXDp3do2Xb78w3P2t5LQe375"
-                    .to_string(),
-                user: user.into(),
-            })),
-            "arnau" => Ok(Json(LoginResponse {
-                access_token: "JepxMnW6Gy2A4rbwufLt9DBTcLDHmXAF4r38DAvaP5eCAFLB4xmgBcd3qsP6Z5pE"
-                    .to_string(),
-                user: user.into(),
-            })),
-            "michelle" => Ok(Json(LoginResponse {
-                access_token: "7j8RYjzbs9yx4DKBGtMjEA77HdiNHUroiKpC57tNhDUyixTUWYDmUUSyGoEJzQ42"
-                    .to_string(),
-                user: user.into(),
-            })),
-            _ => Err(status::Custom(
+    let access_token = match request.username.as_str() {
+        "chris" => "w5nnRh8P3VyxJZuVk3xQVYsnfU9RvUzMo8Yd5Yb5fXDp3do2Xb78w3P2t5LQe375",
+        "arnau" => "JepxMnW6Gy2A4rbwufLt9DBTcLDHmXAF4r38DAvaP5eCAFLB4xmgBcd3qsP6Z5pE",
+        "michelle" => "7j8RYjzbs9yx4DKBGtMjEA77HdiNHUroiKpC57tNhDUyixTUWYDmUUSyGoEJzQ42",
+        _ => {
+            return Err(status::Custom(
                 rocket::http::Status::Unauthorized,
                 Json(ErrorResponse {
                     error: "Invalid username or password".to_string(),
                 }),
-            )),
+            ));
         }
-    } else {
-        Err(status::Custom(
-            rocket::http::Status::Unauthorized,
-            Json(ErrorResponse {
-                error: "Invalid username or password".to_string(),
-            }),
-        ))
-    }
+    };
+
+    let user = all_users
+        .into_iter()
+        .find(|u| u.username == request.username)
+        .ok_or_else(|| {
+            status::Custom(
+                rocket::http::Status::Unauthorized,
+                Json(ErrorResponse {
+                    error: "User not found".to_string(),
+                }),
+            )
+        })?;
+    Ok(Json(LoginResponse {
+        access_token: access_token.to_string(),
+        user: user.into_response().await,
+    }))
 }
 
 #[derive(serde::Deserialize, utoipa::ToSchema)]

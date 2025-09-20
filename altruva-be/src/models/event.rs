@@ -19,6 +19,7 @@ pub struct Event {
     pub sponsors: Vec<SsUuid<Organization>>,
     pub location: String,
     pub causes: Vec<Cause>,
+    pub elapsed: bool,
 }
 
 impl Event {
@@ -44,6 +45,21 @@ impl Event {
             sponsors,
             location: self.location.clone(),
             causes: self.causes.clone(),
+            elapsed: self.elapsed,
+        }
+    }
+
+    pub async fn process_elapsed(&mut self) {
+        let now = Utc::now();
+        if self.date < now && !self.elapsed {
+            self.elapsed = true;
+            let client = crate::surrealdb_client().await.unwrap();
+            let _ = self.db_overwrite(&client).await;
+            for attendee in &self.attendees {
+                let mut attendee_user = attendee.db_fetch(&client).await.unwrap();
+                attendee_user.points += 10; // arbitrary
+                let _ = attendee_user.db_overwrite(&client).await;
+            }
         }
     }
 }
@@ -67,4 +83,5 @@ pub struct EventResponse {
     pub sponsors: Vec<OrganizationResponse>,
     pub location: String,
     pub causes: Vec<Cause>,
+    pub elapsed: bool,
 }
