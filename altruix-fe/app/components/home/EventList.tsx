@@ -117,9 +117,6 @@ export default function EventList({
 
           <CardFooter className="pt-3 border-t">
             <div className="flex justify-between items-center w-full">
-              <div className="text-sm text-muted-foreground">
-                {formatDate(event.timestamp)}
-              </div>
               {onEventClick && (
                 <Button 
                   variant="ghost" 
