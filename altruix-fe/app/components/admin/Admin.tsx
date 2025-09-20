@@ -1,18 +1,23 @@
-
 import Interests from './Interests';
 import EventHistory from './EventHistory';
 import Analytics from './Analytics';
 import Calendar from './Calendar';
+import ManagedOrgs from './ManagedOrgs';
+import type { Event } from '~/schemas/eventsSchema';
 
 
 export default function Admin({
   user,  
-  causes
+  causes,
+  allEvents
 }: {
   user: any;
   causes: any;
+  allEvents: Event[];
 }) {
   const interestsList = user?.interests;
+  const managedOrgs = user?.manages_orgs;
+  console.log(`managedOrgs:`, JSON.stringify(managedOrgs));
   
 
     return (
@@ -27,6 +32,9 @@ export default function Admin({
               <EventHistory />
               <Calendar />
               <Analytics />
+            </div>
+            <div className="mt-10 px-4 lg:px-6">
+              <ManagedOrgs userOrgs={managedOrgs} allEvents={allEvents} />
             </div>
 
         </>
