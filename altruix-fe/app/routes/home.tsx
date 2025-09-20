@@ -2,7 +2,7 @@ import type { Route } from "./+types/home";
 import { useLoaderData } from "react-router";
 import { getSession } from "~/sessions.server";
 import EventList from "../components/home/EventList";
-import Calendar from "../components/home/Calendar";
+import Calendar from "../components/Calendar";
 import { getEvents } from "~/utils/eventsUtils";
 
 export async function loader({ request }: Route.LoaderArgs) {
