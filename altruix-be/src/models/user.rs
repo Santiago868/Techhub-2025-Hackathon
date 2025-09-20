@@ -2,12 +2,13 @@ use crate::models::cause::Cause;
 use serde::{Deserialize, Serialize};
 use surreal_socket::dbrecord::{DBRecord, SsUuid};
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Clone)]
 pub struct User {
     pub uuid: SsUuid<User>,
     pub name: String,
     pub username: String,
     pub interests: Vec<Cause>,
+    pub manages_orgs: Vec<SsUuid<crate::models::organization::Organization>>,
 
     #[allow(dead_code)] // hackathon
     pub password_hash: String,
