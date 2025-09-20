@@ -1,32 +1,22 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
+import { Form } from "react-router";
 
-export function Login() {
+export interface LoginProps {
+    defaultEmail?: string;
+    defaultPassword?: string;
+}
+
+export default function Login({ defaultEmail, defaultPassword }: LoginProps) {
     return (
-        <Tabs defaultValue="account" className="w-[400px]">
-            <TabsList>
-                <TabsTrigger value="account">Account</TabsTrigger>
-                <TabsTrigger value="password">Password</TabsTrigger>
-            </TabsList>
-            <TabsContent value="account">
-                <form>
-                    <div>
-                        <label htmlFor="email">Email:</label>
-                        <input id="email" type="email" name="email" />
-                    </div>
-                    <div>
-                        <label htmlFor="username">Username:</label>
-                        <input id="username" type="text" name="username" />
-                    </div>
-                </form>
-            </TabsContent>
-            <TabsContent value="password">
-                <form>
-                    <div>
-                        <label htmlFor="password">Password:</label>
-                        <input id="password" type="password" name="password" />
-                    </div>
-                </form>
-            </TabsContent>
-        </Tabs>
-    )
+        <Form action="/login" method="post">
+            <label>
+                Username
+                <input name="username" type="text" defaultValue={defaultEmail} required />
+            </label>
+            <label>
+                Password
+                <input name="password" type="password" defaultValue={defaultPassword} required />
+            </label>
+            <button type="submit">Login</button>
+        </Form>
+    );
 }
