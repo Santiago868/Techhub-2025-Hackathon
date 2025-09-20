@@ -1,10 +1,10 @@
 
+
 export interface AuthOptions {
-    username?: string;
-    password?: string;
+    token?: string;
 }
 
-export async function handleAuth(
+export async function getCauses(
     options: AuthOptions
 ) {
     const baseUrl = process.env.BASE_URL;
@@ -12,19 +12,16 @@ export async function handleAuth(
         throw new Error('BASE_URL is not defined in environment variables');
     }
     
-    const authUrl = `${baseUrl}/login`;
+    const authUrl = `${baseUrl}/causes`;
 
     try { 
         const response = await fetch(authUrl, {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'ngrok-skip-browser-warning': 'true', // For ngrok endpoints
+                'Authorization': `Bearer ${options.token}`,
+                'ngrok-skip-browser-warning': 'true', 
             },
-            body: JSON.stringify({
-                username: options.username,
-                password: options.password,
-            }),
         });
 
         if (!response.ok) {
