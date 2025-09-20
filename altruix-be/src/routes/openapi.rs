@@ -12,8 +12,8 @@ use utoipa_rapidoc::RapiDoc;
         title = "Altruix API",
         description = "https://github.com/Santiago868/Techhub-2025-Hackathon/tree/main/altruix-be"
     ),
-    paths(version, crate::routes::users::login, crate::routes::generic::causes, crate::routes::events::get_events, crate::routes::organizations::get_organizations),
-    components(schemas(crate::models::user::UserResponse, crate::models::cause::Cause, crate::models::event::EventResponse, crate::models::organization::OrganizationResponse, crate::routes::generic::CausesResponse, crate::routes::generic::CauseResponseItem, crate::routes::events::EventsResponse, crate::routes::organizations::OrganizationsResponse, crate::ErrorResponse)),
+    paths(version, crate::routes::users::login, crate::routes::generic::causes, crate::routes::events::get_events, crate::routes::organizations::get_organizations, crate::routes::events::join_event, crate::routes::events::leave_event),
+    components(schemas(crate::models::user::UserResponse, crate::models::cause::Cause, crate::models::event::EventResponse, crate::models::organization::OrganizationResponse, crate::routes::generic::CausesResponse, crate::routes::generic::CauseResponseItem, crate::routes::events::EventsResponse, crate::routes::organizations::OrganizationsResponse, crate::ErrorResponse, crate::routes::users::LoginRequest, crate::routes::users::LoginResponse)),
     tags(),
     security(
         ("bearerAuth" = [])

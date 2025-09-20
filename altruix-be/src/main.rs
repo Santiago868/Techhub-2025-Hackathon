@@ -33,6 +33,8 @@ async fn main() {
                 root_redirect,
                 crate::routes::events::get_events,
                 crate::routes::organizations::get_organizations,
+                crate::routes::events::join_event,
+                crate::routes::events::leave_event,
             ],
         )
         .launch()
