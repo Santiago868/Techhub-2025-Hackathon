@@ -12,6 +12,7 @@ async fn main() {
                 routes::openapi::rapidoc,
                 routes::openapi::openapi_route,
                 crate::routes::users::login,
+                routes::generic::causes,
                 version,
                 root_redirect,
             ],

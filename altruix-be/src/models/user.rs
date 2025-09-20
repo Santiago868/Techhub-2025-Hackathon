@@ -1,4 +1,4 @@
-use crate::routes::users::Cause;
+use crate::models::cause::Cause;
 
 struct User {
     name: String,

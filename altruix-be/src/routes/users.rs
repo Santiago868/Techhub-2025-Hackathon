@@ -1,6 +1,6 @@
 use rocket::{response::status, serde::json::Json};
 
-use crate::{ErrorResponse, models::user::UserResponse};
+use crate::{ErrorResponse, models::cause::Cause, models::user::UserResponse};
 
 /// Log in
 #[utoipa::path(
@@ -35,7 +35,10 @@ pub fn login(
             user: UserResponse {
                 name: "Chris".to_string(),
                 username: "chris".to_string(),
-                interests: vec![Cause::Todo],
+                interests: vec![
+                    Cause::AssistingAtFoodBanks,
+                    Cause::TreePlantingAndCommunityGardening,
+                ],
             },
         })),
         "arnau" => Ok(Json(LoginResponse {
@@ -44,7 +47,7 @@ pub fn login(
             user: UserResponse {
                 name: "Arnau".to_string(),
                 username: "arnau".to_string(),
-                interests: vec![Cause::Todo],
+                interests: vec![Cause::MentalHealthPeerSupportGroups, Cause::FosteringPets],
             },
         })),
         "michelle" => Ok(Json(LoginResponse {
@@ -53,7 +56,10 @@ pub fn login(
             user: UserResponse {
                 name: "Michelle".to_string(),
                 username: "michelle".to_string(),
-                interests: vec![Cause::Todo],
+                interests: vec![
+                    Cause::HospitalVolunteeringNonMedicalSupport,
+                    Cause::DisasterResponseVolunteeringSupplyDistributionShelterSupport,
+                ],
             },
         })),
         _ => Err(status::Custom(
@@ -76,9 +82,4 @@ pub struct LoginRequest {
 pub struct LoginResponse {
     access_token: String,
     user: UserResponse,
-}
-
-#[derive(serde::Serialize, utoipa::ToSchema)]
-pub enum Cause {
-    Todo,
 }
