@@ -5,7 +5,14 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card"
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group"
+import { Button } from "../ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
 
 interface Cause {
   category: string;
@@ -40,30 +47,33 @@ export default function Interests({
               <h3 className="font-semibold text-base text-gray-900 border-b border-gray-200 pb-2">
                 {category.category}
               </h3>
-              <ToggleGroup 
-                type="multiple" 
-                variant="outline"
-                value={selectedInterests.filter(interest => category.causes.includes(interest))}
-                onValueChange={(newValue) => {
-                  const otherInterests = selectedInterests.filter(interest => !category.causes.includes(interest));
-                  setSelectedInterests([...otherInterests, ...newValue]);
-                }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full"
-              >
-                {category.causes.map((cause) => (
-                  <ToggleGroupItem 
-                    key={cause} 
-                    value={cause} 
-                    className={`text-sm p-3 h-auto text-left justify-start whitespace-normal leading-relaxed ${
-                      selectedInterests.includes(cause) 
-                        ? 'bg-gray-800 text-white border-gray-800 hover:bg-gray-700' 
-                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400'
-                    }`}
-                  >
-                    {cause}
-                  </ToggleGroupItem>
-                ))}
-              </ToggleGroup>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between">
+                    {selectedInterests.filter(interest => category.causes.includes(interest)).length > 0 
+                      ? `${selectedInterests.filter(interest => category.causes.includes(interest)).length} selected`
+                      : `Select ${category.category.toLowerCase()}`}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-80">
+                  <DropdownMenuSeparator />
+                  {category.causes.map((cause) => (
+                    <DropdownMenuCheckboxItem
+                      key={cause}
+                      checked={selectedInterests.includes(cause)}
+                      onCheckedChange={(checked: boolean) => {
+                        if (checked) {
+                          setSelectedInterests(prev => [...prev, cause]);
+                        } else {
+                          setSelectedInterests(prev => prev.filter(item => item !== cause));
+                        }
+                      }}
+                    >
+                      {cause}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           ))}
         </div>
