@@ -20,7 +20,7 @@ export default function Points({ points, variant = 'card', size = 'medium' }: Po
 
     return (
       <div className="inline-flex items-center gap-2">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 ">
           <span className="text-yellow-500">★</span>
           <span className={`font-semibold text-yellow-600 ${sizeClasses[size]}`}>
             {formatPoints(points)} points
