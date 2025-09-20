@@ -42,7 +42,7 @@ allCauses.forEach((cause, index) => {
 // causes.causes.forEach(c => console.log(c.causes));
  return (
   <>
-    <Card className="@container/card">
+    <Card className="@container/card border-0 rounded-xl bg-white/30 backdrop-blur-lg shadow-lg">
       <CardHeader>
         <CardDescription>What are you into?</CardDescription>
         <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
