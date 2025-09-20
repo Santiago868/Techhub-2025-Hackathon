@@ -9,18 +9,14 @@ import {
   CardTitle,
 } from "../components/ui/card"
 import { Input } from "../components/ui/input"
-import { Label } from "../components/ui/label"
 import backgroundImg from "../../public/imgs/loginBackground.jpg";
 
-export interface LoginProps {
-    defaultEmail?: string;
-    defaultPassword?: string;
-}
 
-export default function Login({ defaultEmail, defaultPassword }: LoginProps) {
+
+export default function Login() {
     return (
     <div className={cn("flex justify-center items-center min-h-screen bg-cover bg-center",)}  style={{ backgroundImage: `url(${backgroundImg})` }}>
-      <Card className="w-1/3 h-full flex flex-col justify-end mx-auto p-4 pt-34 border-2 border-gray-300 rounded-xl bg-white/30 backdrop-blur-lg shadow-lg">
+      <Card className="min-w-80 h-full flex flex-col justify-end mx-auto p-4 pt-34 border-2 border-gray-300 rounded-xl bg-white/30 backdrop-blur-lg shadow-lg">
         <CardHeader>
           <CardTitle className="text-white font-bold text-3xl">Login</CardTitle>
           <CardDescription className="text-white">
@@ -33,6 +29,7 @@ export default function Login({ defaultEmail, defaultPassword }: LoginProps) {
             <div className="grid gap-3">
                 <Input
                   id="username"
+                  name="username"
                   type="string"
                   placeholder="username"
                   required
@@ -42,7 +39,7 @@ export default function Login({ defaultEmail, defaultPassword }: LoginProps) {
             <div className="grid gap-3">
                 <div className="flex items-center">
                 </div>
-                <Input id="password" type="password" required placeholder="password" />
+                <Input id="password" name="password" type="password" required placeholder="password" />
                 <a
                     href="#"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline text-white"

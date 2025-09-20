@@ -2,7 +2,6 @@
 import Interests from './Interests';
 import EventHistory from './EventHistory';
 import Analytics from './Analytics';
-import Rating from './Rating';
 import Calendar from './Calendar';
 
 
@@ -26,7 +25,6 @@ export default function Admin({
               causes={causes}
               />
               <EventHistory />
-              <Rating />
               <Calendar />
               <Analytics />
             </div>
