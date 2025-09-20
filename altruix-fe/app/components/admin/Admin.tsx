@@ -71,9 +71,11 @@ export default function Admin({
   //   console.log('Date selected:', date);
   // };
   
+  const glassStyle = "border-0 border-gray-300 rounded-xl bg-white/30 backdrop-blur-lg p-6"
 
     return (
-        <div className="container mx-auto p-4">
+        <div className=" p-4 bg-[#87CEEB] -mt-4">
+          <div className='text-center'>
             <h1 className="text-4xl font-bold mb-6">Admin Dashboard</h1>
             
             {user && (
@@ -93,24 +95,25 @@ export default function Admin({
                     </div>
                 </div>
             )}
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl">
+          </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {isEventAttendee && (
-                    <div className="bg-white rounded-lg shadow-md p-6 border">
+                    <div className={`${glassStyle}`}>
                         <h2 className="text-2xl font-semibold mb-4 text-blue-600">My Events</h2>
                         <UserEvents userEvents={userEvents} />
                     </div>
                 )}
 
                 {isOrgManager && (
-                    <div className="bg-white rounded-lg shadow-md p-6 border">
+                    <div className={`${glassStyle}`}>
                         <h2 className="text-2xl font-semibold mb-4 text-purple-600">Managed Organizations</h2>
                         <ManagedOrgs userOrgs={managedOrgs} allEvents={allEvents} />
                     </div>
                 )}
-
+              </div>
+              <div className="grid grid-cols-1 gap-6 my-8">
                 {(isEventAttendee || isOrgManager) && (
-                    <div className="bg-white rounded-lg shadow-md p-6 border">
+                    <div className={`${glassStyle} text-left`}>
                         <h2 className="text-2xl font-semibold mb-4 text-green-600">
                             {isEventAttendee ? "My Event Calendar" : "Organization Event Calendar"}
                         </h2>
@@ -131,27 +134,22 @@ export default function Admin({
 
                 {!isEventAttendee && !isOrgManager && (
                     <div className="col-span-full">
-                        <div className="bg-white rounded-lg shadow-md p-8 border text-center">
+                        <div className={`${glassStyle} text-center`}>
                             <h2 className="text-2xl font-semibold mb-4 text-gray-600">Get Started</h2>
                             <p className="text-gray-600 mb-4">You're not currently attending any events or managing any organizations.</p>
                             <p className="text-sm text-gray-500">Explore available volunteer opportunities to get involved in your community!</p>
                         </div>
                     </div>
                 )}
-            </div>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 max-w-7xl">
-                <div className="bg-white rounded-lg shadow-md p-6 border md:col-span-2 lg:col-span-2">
+            <div className=" gap-6 mb-8 w-full ">
+                <div className={`${glassStyle} md:col-span-2 lg:col-span-2`}>
                     <h3 className="text-lg font-semibold mb-4 text-purple-600">Interests</h3>
                     <Interests 
                         userInterests={interestsList}
                         causes={causes}
                     />
-                </div>
-                
-                <div className="bg-white rounded-lg shadow-md p-6 border">
-                    <h3 className="text-lg font-semibold mb-4 text-orange-600">Event History</h3>
-                    <EventHistory />
                 </div>
                 
                 {/* <div className="bg-white rounded-lg shadow-md p-6 border">
@@ -163,9 +161,13 @@ export default function Admin({
                     />
                 </div> */}
             </div>
+            <div className={`${glassStyle} width-full mb-8`}>
+                    <h3 className="text-lg font-semibold mb-4 text-orange-600">Event History</h3>
+                    <EventHistory />
+                </div>
 
-            <div className="grid grid-cols-1 gap-6 mb-8 max-w-7xl">
-                <div className="bg-white rounded-lg shadow-md p-6 border">
+            <div className="grid grid-cols-1 gap-6 mb-8">
+                <div className={`${glassStyle}`}>
                     <h3 className="text-lg font-semibold mb-4 text-blue-600">Analytics</h3>
                     <Analytics />
                 </div>
