@@ -28,9 +28,9 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const { sessionData, events } = useLoaderData<typeof loader>();
 
-  // const handleEventClick = (event: any) => {
-  //   console.log('Event clicked:', event);
-  // };
+  const handleEventClick = (event: any) => {
+    console.log('Event clicked:', event);
+  };
 
   // const handleDateSelect = (date: Date) => {
   //   console.log('Date selected:', date);
@@ -64,7 +64,7 @@ export default function Home() {
           {events.length > 0 ? (
             <EventList 
               events={events} 
-              // onEventClick={handleEventClick}
+              onEventClick={handleEventClick}
             />
           ) : (
             <div className="text-center py-8">
