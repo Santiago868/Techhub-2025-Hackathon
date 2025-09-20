@@ -16,7 +16,7 @@ import backgroundImg from "../../public/imgs/loginBackground.jpg";
 export default function Login() {
     return (
     <div className={cn("flex justify-center items-center min-h-screen bg-cover bg-center",)}  style={{ backgroundImage: `url(${backgroundImg})` }}>
-      <Card className="w-1/3 h-full flex flex-col justify-end mx-auto p-4 pt-34 border-2 border-gray-300 rounded-xl bg-white/30 backdrop-blur-lg shadow-lg">
+      <Card className="min-w-80 h-full flex flex-col justify-end mx-auto p-4 pt-34 border-2 border-gray-300 rounded-xl bg-white/30 backdrop-blur-lg shadow-lg">
         <CardHeader>
           <CardTitle className="text-white font-bold text-3xl">Login</CardTitle>
           <CardDescription className="text-white">
