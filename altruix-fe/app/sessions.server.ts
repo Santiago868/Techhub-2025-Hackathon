@@ -1,7 +1,10 @@
 import { createCookieSessionStorage } from "react-router";
+import type { UserSchemaType } from "./schemas/userSchema";
+
 
 type SessionData = {
-  userId: string;
+  user?: UserSchemaType;
+  token?: string;
 };
 
 type SessionFlashData = {
@@ -16,17 +19,17 @@ const { getSession, commitSession, destroySession } =
         name: "__session",
 
         // all of these are optional
-        domain: "reactrouter.com",
+        // Remove domain for development - it will default to the current host
+        // domain: undefined, // or set to "localhost" for development
         // Expires can also be set (although maxAge overrides it when used in combination).
         // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
         //
         // expires: new Date(Date.now() + 60_000),
         httpOnly: true,
-        maxAge: 60,
+        maxAge: 60 * 60 * 24 * 7, // 7 days instead of 60 seconds
         path: "/",
         sameSite: "lax",
-        secrets: ["s3cret1"],
-        secure: true,
+        secure: process.env.NODE_ENV === "production", // Only secure in production
       },
     },
   );
