@@ -13,7 +13,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   };
 
   const events = await getEvents();
-  console.log(`Loaded ${events.length} events from API`);
+  // console.log(`Loaded ${events.length} events from API`);
 
   return { sessionData, events };
 }
@@ -28,13 +28,13 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const { sessionData, events } = useLoaderData<typeof loader>();
 
-  const handleEventClick = (event: any) => {
-    console.log('Event clicked:', event);
-  };
+  // const handleEventClick = (event: any) => {
+  //   console.log('Event clicked:', event);
+  // };
 
-  const handleDateSelect = (date: Date) => {
-    console.log('Date selected:', date);
-  };
+  // const handleDateSelect = (date: Date) => {
+  //   console.log('Date selected:', date);
+  // };
 
   const calendarEvents = events.map(event => ({
     id: event.uuid || event.name,
@@ -64,7 +64,7 @@ export default function Home() {
           {events.length > 0 ? (
             <EventList 
               events={events} 
-              onEventClick={handleEventClick}
+              // onEventClick={handleEventClick}
             />
           ) : (
             <div className="text-center py-8">
@@ -78,8 +78,8 @@ export default function Home() {
           <h2 className="text-2xl font-semibold mb-4 text-green-600">Event Calendar</h2>
           <Calendar 
             events={calendarEvents}
-            onEventClick={handleEventClick}
-            onDateSelect={handleDateSelect}
+            // onEventClick={handleEventClick}
+            // onDateSelect={handleDateSelect}
           />
         </div>
       </div>

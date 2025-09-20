@@ -26,13 +26,14 @@ export default function UserEvents({ userEvents }: UserEventsProps) {
   }
 
   return (
+    console.log(`Rendering UserEvents with ${userEvents} events`),
     <div className="space-y-4">
       <p className="text-sm text-gray-600 mb-4">{userEvents.length} event{userEvents.length !== 1 ? 's' : ''} attending</p>
       {userEvents.map((event) => (
         <div key={event.uuid} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
           <div className="flex justify-between items-start mb-2">
             <Link 
-              to={`/event/${event.uuid}`}
+                to={`/events/${event.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')}`}
               className="text-lg font-semibold text-blue-600 hover:text-blue-800 transition-colors"
             >
               {event.name}

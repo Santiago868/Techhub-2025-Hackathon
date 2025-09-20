@@ -4,6 +4,7 @@ import Analytics from './Analytics';
 import Calendar from '../Calendar';
 import ManagedOrgs from './ManagedOrgs';
 import UserEvents from './UserEvents';
+import Points from '../Points';
 import type { Event } from '~/schemas/eventsSchema';
 
 
@@ -19,8 +20,8 @@ export default function Admin({
   const interestsList = user?.interests;
   const managedOrgs = user?.manages_orgs;
   const userEvents = user?.events_attending || [];
-  console.log(`managedOrgs:`, JSON.stringify(managedOrgs));
-  console.log(`userEvents:`, JSON.stringify(userEvents));
+  // console.log(`managedOrgs:`, JSON.stringify(managedOrgs));
+  // console.log(`userEvents:`, JSON.stringify(userEvents));
   
   const isOrgManager = managedOrgs && managedOrgs.length > 0;
   const isEventAttendee = userEvents && userEvents.length > 0;
@@ -62,13 +63,13 @@ export default function Admin({
 
   const calendarEvents = getCalendarEvents();
 
-  const handleEventClick = (event: any) => {
-    console.log('Calendar event clicked:', event);
-  };
+  // const handleEventClick = (event: any) => {
+  //   console.log('Calendar event clicked:', event);
+  // };
 
-  const handleDateSelect = (date: Date) => {
-    console.log('Date selected:', date);
-  };
+  // const handleDateSelect = (date: Date) => {
+  //   console.log('Date selected:', date);
+  // };
   
 
     return (
@@ -77,12 +78,19 @@ export default function Admin({
             
             {user && (
                 <div className="mb-8">
-                    <p className="text-lg">Welcome, {user.name}!</p>
-                    <p className="text-sm text-gray-600">
-                        {isOrgManager && "Organization Manager"}
-                        {isEventAttendee && "Event Participant"}
-                        {!isOrgManager && !isEventAttendee && "Getting Started"}
-                    </p>
+                    <div className="flex justify-between items-start mb-4">
+                        <div>
+                            <p className="text-lg">Welcome, {user.name}!</p>
+                            <p className="text-sm text-gray-600">
+                                {isOrgManager && "Organization Manager"}
+                                {isEventAttendee && "Event Participant"}
+                                {!isOrgManager && !isEventAttendee && "Getting Started"}
+                            </p>
+                        </div>
+                        <div className="flex-shrink-0">
+                            <Points points={user.points || 0} variant="inline" size="large" />
+                        </div>
+                    </div>
                 </div>
             )}
 
@@ -108,9 +116,16 @@ export default function Admin({
                         </h2>
                         <Calendar 
                             events={calendarEvents}
-                            onEventClick={handleEventClick}
-                            onDateSelect={handleDateSelect}
+                            // onEventClick={handleEventClick}
+                            // onDateSelect={handleDateSelect}
                         />
+                    </div>
+                )}
+
+                {(isEventAttendee || isOrgManager) && (
+                    <div className="bg-white rounded-lg shadow-md p-6 border">
+                        <h2 className="text-2xl font-semibold mb-4 text-yellow-600">My Points</h2>
+                        <Points points={user?.points || 0} variant="card" size="medium" />
                     </div>
                 )}
 

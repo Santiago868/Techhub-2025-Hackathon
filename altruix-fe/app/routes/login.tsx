@@ -15,7 +15,7 @@ export async function action({ request }: { request: Request }) {
 
   try {
     const data = await handleAuth({ username, password });
-    console.log("Auth data:", data);
+    // console.log("Auth data:", data);
     const token = (data && (data.access_token || data.token));
 
     const session = await getSession(request.headers.get("Cookie"));

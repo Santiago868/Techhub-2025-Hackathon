@@ -21,8 +21,26 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 
   const allEvents = await getEvents();
   
+  let userEventsAttending = [];
+  if (user?.events_attending && Array.isArray(user.events_attending)) {
+    const isUuidArray = user.events_attending.length > 0 && typeof user.events_attending[0] === 'string';
+    
+    if (isUuidArray) {
+      userEventsAttending = allEvents.filter(event => 
+        user.events_attending && user.events_attending.includes(event.uuid)
+      );
+    } else {
+      userEventsAttending = user.events_attending;
+    }
+  }
+
+  const userWithMappedEvents = {
+    ...user,
+    events_attending: userEventsAttending
+  };
+  
   return {
-    user,
+    user: userWithMappedEvents,
     causes,
     allEvents,
   };

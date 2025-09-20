@@ -48,7 +48,7 @@ export async function getEvents() {
             return [];
         });
 
-        console.log(`Processed ${allEvents.length} events from API`);
+        // console.log(`Processed ${allEvents.length} events from API`);
         return allEvents;
         
     } catch (error) {

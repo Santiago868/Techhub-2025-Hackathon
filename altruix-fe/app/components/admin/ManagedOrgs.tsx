@@ -34,9 +34,9 @@ export default function ManagedOrgs({ userOrgs, allEvents }: ManagedOrgsProps) {
       <p className="text-sm text-gray-600 mb-4">{userOrgs.length} organization{userOrgs.length !== 1 ? 's' : ''} managed</p>
       {userOrgs.map((org) => {
         const sponsoredEventIds = new Set(org.sponsoring.map(s => s.Event));
-        console.log('Sponsored Event IDs for org', org.name, sponsoredEventIds);
+        // console.log('Sponsored Event IDs for org', org.name, sponsoredEventIds);
         const orgEvents = allEvents.filter(event => sponsoredEventIds.has(event.uuid));
-        console.log(`Events for org ${org.name}:`, orgEvents);
+        // console.log(`Events for org ${org.name}:`, orgEvents);
         return (
           <div key={org.uuid} className="border border-gray-200 rounded-lg p-4">
             <div className="mb-4">
