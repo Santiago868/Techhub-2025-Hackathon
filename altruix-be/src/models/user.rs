@@ -1,4 +1,4 @@
-use crate::models::cause::Cause;
+use crate::models::{cause::Cause, event::Event};
 use serde::{Deserialize, Serialize};
 use surreal_socket::dbrecord::{DBRecord, SsUuid};
 
@@ -9,6 +9,7 @@ pub struct User {
     pub username: String,
     pub interests: Vec<Cause>,
     pub manages_orgs: Vec<SsUuid<crate::models::organization::Organization>>,
+    pub events_attending: Vec<SsUuid<crate::models::event::Event>>,
 
     #[allow(dead_code)] // hackathon
     pub password_hash: String,
@@ -25,11 +26,20 @@ impl User {
             }
         }
 
+        let mut events_attending = Vec::new();
+
+        for event in Event::db_all(&client).await.unwrap() {
+            if event.attendees.contains(&self.uuid) {
+                events_attending.push(event.as_response().await);
+            }
+        }
+
         UserResponse {
             name: self.name,
             username: self.username,
             interests: self.interests,
             manages_orgs,
+            events_attending,
         }
     }
 }
@@ -40,6 +50,7 @@ pub struct UserResponse {
     pub username: String,
     pub interests: Vec<Cause>,
     pub manages_orgs: Vec<crate::models::organization::OrganizationResponse>,
+    pub events_attending: Vec<crate::models::event::EventResponse>,
 }
 
 impl DBRecord for User {

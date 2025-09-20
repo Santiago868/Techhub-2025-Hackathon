@@ -8,7 +8,7 @@ use crate::models::user::User;
 use crate::surrealdb_client;
 
 pub async fn init_demo() {
-    println!("Running DB initialization (manual)…");
+    println!("Running DB demo initialization…");
     let client = surrealdb_client().await.expect("connect SurrealDB");
 
     // Users
@@ -39,6 +39,7 @@ pub async fn init_demo() {
             password_hash: String::new(),
             interests: vec![Cause::CommunityGardening, Cause::FoodBanksSoupKitchen],
             manages_orgs: vec![o_helping_hands.clone(), o_green_earth.clone()],
+            events_attending: vec![e_beach_cleanup.clone()],
         },
         User {
             uuid: u_michelle.clone(),
@@ -51,6 +52,11 @@ pub async fn init_demo() {
                 Cause::WildlifeRescueSupport,
             ],
             manages_orgs: vec![],
+            events_attending: vec![
+                e_beach_cleanup.clone(),
+                e_garden_day.clone(),
+                e_adoption_fair.clone(),
+            ],
         },
         User {
             uuid: u_arnau.clone(),
@@ -59,6 +65,7 @@ pub async fn init_demo() {
             password_hash: String::new(),
             interests: vec![Cause::MentalHealth, Cause::AnimalShelter],
             manages_orgs: vec![o_animal_care.clone()],
+            events_attending: vec![e_adoption_fair.clone()],
         },
         User {
             uuid: u_taylor.clone(),
@@ -67,6 +74,7 @@ pub async fn init_demo() {
             password_hash: String::new(),
             interests: vec![Cause::HealthAwareness],
             manages_orgs: vec![],
+            events_attending: vec![e_beach_cleanup.clone(), e_park_revive.clone()],
         },
         User {
             uuid: u_jordan.clone(),
@@ -75,6 +83,7 @@ pub async fn init_demo() {
             password_hash: String::new(),
             interests: vec![Cause::DisasterResponse, Cause::Fundraising],
             manages_orgs: vec![],
+            events_attending: vec![e_garden_day.clone(), e_park_revive.clone()],
         },
     ];
 
@@ -185,5 +194,5 @@ pub async fn init_demo() {
         e.db_create(&client).await.expect("create event");
     }
 
-    println!("Initialization complete (manual).");
+    println!("Initialization complete.");
 }
