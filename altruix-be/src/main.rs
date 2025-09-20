@@ -1,5 +1,6 @@
 use rocket::{response::Redirect, uri};
 
+mod models;
 mod routes;
 
 #[tokio::main]
@@ -10,6 +11,7 @@ async fn main() {
             rocket::routes![
                 routes::openapi::rapidoc,
                 routes::openapi::openapi_route,
+                crate::routes::users::login,
                 version,
                 root_redirect,
             ],
@@ -40,4 +42,9 @@ fn version() -> &'static str {
 #[rocket::get("/")]
 fn root_redirect() -> Redirect {
     Redirect::to(uri!("/rapidoc"))
+}
+
+#[derive(serde::Serialize, utoipa::ToSchema)]
+struct ErrorResponse {
+    error: String,
 }

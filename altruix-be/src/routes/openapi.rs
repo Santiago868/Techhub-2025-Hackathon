@@ -12,8 +12,8 @@ use utoipa_rapidoc::RapiDoc;
         title = "Altruix API",
         description = "https://github.com/Santiago868/Techhub-2025-Hackathon/tree/main/altruix-be"
     ),
-    paths(version),
-    components(schemas()),
+    paths(version, crate::routes::users::login),
+    components(schemas(crate::models::user::UserResponse)),
     tags(),
     security(
         ("bearerAuth" = [])

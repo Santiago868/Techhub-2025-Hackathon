@@ -31,6 +31,7 @@ name = "altruix-backend"
 version = "0.1.0"
 dependencies = [
  "rocket",
+ "serde",
  "tokio",
  "utoipa",
  "utoipa-rapidoc",
