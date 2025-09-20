@@ -20,6 +20,7 @@ export async function getCauses(
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${options.token}`,
+                'ngrok-skip-browser-warning': 'true', 
             },
         });
 

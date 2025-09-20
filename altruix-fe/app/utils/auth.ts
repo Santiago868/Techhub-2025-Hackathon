@@ -19,6 +19,7 @@ export async function handleAuth(
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true', // For ngrok endpoints
             },
             body: JSON.stringify({
                 username: options.username,
