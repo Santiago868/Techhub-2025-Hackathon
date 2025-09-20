@@ -169,3 +169,28 @@ pub async fn leave_event(
 
     Ok(())
 }
+
+/// Demo skip
+#[utoipa::path(
+    get,
+    path = "/s",
+    description = "Demo: Skip ahead 100 days (move all events 100 days into the past)",
+    responses(
+        (status = 200, description = "OK"),
+    ),
+    security(),
+    tag = ""
+)]
+#[rocket::get("/s")]
+pub async fn demo_skip() -> Result<(), status::Custom<Json<ErrorResponse>>> {
+    let client = crate::surrealdb_client().await.unwrap();
+
+    let all_events = Event::db_all(&client).await.unwrap();
+
+    for mut event in all_events {
+        event.date = event.date - chrono::Duration::days(100);
+        let _ = event.db_overwrite(&client).await;
+    }
+
+    Ok(())
+}

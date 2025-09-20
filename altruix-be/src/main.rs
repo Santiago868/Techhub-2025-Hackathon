@@ -1,10 +1,11 @@
-use crate::init_demo::init_demo;
+use crate::{init_demo::init_demo, tick::tick};
 use rocket::{response::Redirect, uri};
 use surrealdb::{Surreal, engine::remote::ws::Ws, opt::auth::Root};
 
 mod init_demo;
 mod models;
 mod routes;
+mod tick;
 
 #[tokio::main]
 async fn main() {
@@ -13,6 +14,15 @@ async fn main() {
     if std::env::args().any(|arg| arg == "--init") {
         init_demo().await;
     }
+
+    // Background task to process elapsed events
+    tokio::spawn(async {
+        let client = surrealdb_client().await.unwrap();
+        loop {
+            tokio::time::sleep(std::time::Duration::from_secs(2)).await;
+            tick(&client).await;
+        }
+    });
 
     if let Err(e) = rocket::build()
         .mount(
@@ -28,6 +38,7 @@ async fn main() {
                 crate::routes::organizations::get_organizations,
                 crate::routes::events::join_event,
                 crate::routes::events::leave_event,
+                crate::routes::events::demo_skip,
             ],
         )
         .launch()

@@ -1,4 +1,4 @@
-use chrono::{DateTime, Utc};
+use chrono::Utc;
 use surreal_socket::dbrecord::{DBRecord, SsUuid};
 
 use crate::models::cause::Cause;
@@ -29,6 +29,7 @@ pub async fn init_demo() {
     let e_garden_day: SsUuid<Event> = SsUuid::new(); // hosted by Green Earth
     let e_adoption_fair: SsUuid<Event> = SsUuid::new(); // hosted by Animal Care
     let e_park_revive: SsUuid<Event> = SsUuid::new(); // hosted by Park Pals
+    let e_food_drive: SsUuid<Event> = SsUuid::new(); // hosted by Helping Hands
 
     // Users (Chris manages 2 orgs; Arnau manages 1; Michelle none)
     let users = vec![
@@ -40,6 +41,7 @@ pub async fn init_demo() {
             interests: vec![Cause::CommunityGardening, Cause::FoodBanksSoupKitchen],
             manages_orgs: vec![o_helping_hands.clone(), o_green_earth.clone()],
             events_attending: vec![e_beach_cleanup.clone()],
+            points: 5,
         },
         User {
             uuid: u_michelle.clone(),
@@ -57,6 +59,7 @@ pub async fn init_demo() {
                 e_garden_day.clone(),
                 e_adoption_fair.clone(),
             ],
+            points: 10,
         },
         User {
             uuid: u_arnau.clone(),
@@ -66,6 +69,7 @@ pub async fn init_demo() {
             interests: vec![Cause::MentalHealth, Cause::AnimalShelter],
             manages_orgs: vec![o_animal_care.clone()],
             events_attending: vec![e_adoption_fair.clone()],
+            points: 15,
         },
         User {
             uuid: u_taylor.clone(),
@@ -75,6 +79,7 @@ pub async fn init_demo() {
             interests: vec![Cause::HealthAwareness],
             manages_orgs: vec![],
             events_attending: vec![e_beach_cleanup.clone(), e_park_revive.clone()],
+            points: 0,
         },
         User {
             uuid: u_jordan.clone(),
@@ -84,6 +89,7 @@ pub async fn init_demo() {
             interests: vec![Cause::DisasterResponse, Cause::Fundraising],
             manages_orgs: vec![],
             events_attending: vec![e_garden_day.clone(), e_park_revive.clone()],
+            points: 0,
         },
     ];
 
@@ -136,45 +142,67 @@ pub async fn init_demo() {
             uuid: e_beach_cleanup.clone(),
             name: "Community Beach Cleanup".into(),
             description: "Help keep the shoreline clean and protect marine life.".into(),
-            date: DateTime::<Utc>::from(d(3)),
+            date: d(3),
             location: "Santa Monica Beach, CA".into(),
             organization: o_helping_hands.clone(),
             causes: vec![Cause::BeachPark],
             attendees: vec![u_chris.clone(), u_michelle.clone(), u_taylor.clone()],
             sponsors: vec![o_helping_hands.clone(), o_animal_care.clone()],
+            elapsed: false,
         },
         Event {
             uuid: e_garden_day.clone(),
             name: "Neighborhood Gardening Day".into(),
             description: "Plant, mulch, and prep beds for spring veggies.".into(),
-            date: DateTime::<Utc>::from(d(7)),
+            date: d(7),
             location: "Portland, OR".into(),
             organization: o_green_earth.clone(),
             causes: vec![Cause::CommunityGardening],
             attendees: vec![u_michelle.clone(), u_jordan.clone()],
             sponsors: vec![o_green_earth.clone()],
+            elapsed: false,
         },
         Event {
             uuid: e_adoption_fair.clone(),
             name: "Pet Adoption Fair".into(),
             description: "Meet adoptable pets and support local shelters.".into(),
-            date: DateTime::<Utc>::from(d(12)),
+            date: d(12),
             location: "Austin, TX".into(),
             organization: o_animal_care.clone(),
             causes: vec![Cause::AdoptionEvents, Cause::AnimalShelter],
             attendees: vec![u_arnau.clone(), u_michelle.clone()],
             sponsors: vec![o_animal_care.clone()],
+            elapsed: false,
         },
         Event {
             uuid: e_park_revive.clone(),
             name: "Park Revival Day".into(),
             description: "Trail cleanup, tree care, and picnic tables refresh.".into(),
-            date: DateTime::<Utc>::from(d(16)),
+            date: d(16),
             location: "Prospect Park, Brooklyn, NY".into(),
             organization: o_park_pals.clone(),
             causes: vec![Cause::BeachPark, Cause::CommunityGardening],
             attendees: vec![u_taylor.clone(), u_jordan.clone()],
             sponsors: vec![o_park_pals.clone(), o_helping_hands.clone()],
+            elapsed: false,
+        },
+        Event {
+            uuid: e_food_drive.clone(),
+            name: "Food Drive & Fundraiser".into(),
+            description: "Collect non-perishables and raise funds for local food banks.".into(),
+            date: d(-2), // past event
+            location: "Santa Monica, CA".into(),
+            organization: o_helping_hands.clone(),
+            causes: vec![Cause::FoodBanksSoupKitchen],
+            attendees: vec![
+                u_chris.clone(),
+                u_michelle.clone(),
+                u_arnau.clone(),
+                u_taylor.clone(),
+                u_jordan.clone(),
+            ],
+            sponsors: vec![o_helping_hands.clone()],
+            elapsed: false, // will be processed and set to true on first tick
         },
     ];
 

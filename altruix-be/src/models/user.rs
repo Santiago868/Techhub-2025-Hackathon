@@ -10,6 +10,7 @@ pub struct User {
     pub interests: Vec<Cause>,
     pub manages_orgs: Vec<SsUuid<crate::models::organization::Organization>>,
     pub events_attending: Vec<SsUuid<crate::models::event::Event>>,
+    pub points: i64,
 
     #[allow(dead_code)] // hackathon
     pub password_hash: String,
@@ -30,7 +31,7 @@ impl User {
 
         for event in Event::db_all(&client).await.unwrap() {
             if event.attendees.contains(&self.uuid) {
-                events_attending.push(event.as_response().await);
+                events_attending.push(event.uuid.to_uuid_string());
             }
         }
 
@@ -40,6 +41,7 @@ impl User {
             interests: self.interests,
             manages_orgs,
             events_attending,
+            points: self.points,
         }
     }
 }
@@ -50,7 +52,8 @@ pub struct UserResponse {
     pub username: String,
     pub interests: Vec<Cause>,
     pub manages_orgs: Vec<crate::models::organization::OrganizationResponse>,
-    pub events_attending: Vec<crate::models::event::EventResponse>,
+    pub events_attending: Vec<String>,
+    pub points: i64,
 }
 
 impl DBRecord for User {
