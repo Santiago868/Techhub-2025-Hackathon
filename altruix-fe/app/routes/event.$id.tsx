@@ -95,7 +95,7 @@ export function meta({ data }: Route.MetaArgs) {
   }
 
   return [
-    { title: `${data.event.name} | Altruix Events` },
+    { title: `${data.event.name} | altruva Events` },
     { name: "description", content: data.event.description.substring(0, 160) + "..." },
   ];
 }

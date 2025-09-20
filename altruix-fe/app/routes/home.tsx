@@ -20,7 +20,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Altruix - Home" },
+    { title: "Altruva" },
     { name: "description", content: "Discover and participate in community volunteer events" },
   ];
 }

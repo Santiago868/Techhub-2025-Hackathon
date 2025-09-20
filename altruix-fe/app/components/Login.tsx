@@ -10,14 +10,18 @@ import {
 } from "../components/ui/card"
 import { Input } from "../components/ui/input"
 import backgroundImg from "../../public/imgs/loginBackground.jpg";
+import appLogo from "../../public/imgs/appLogo.jpg";
 
 
 
 export default function Login() {
     return (
     <div className={cn("flex justify-center items-center min-h-screen bg-cover bg-center -mt-4",)}  style={{ backgroundImage: `url(${backgroundImg})` }}>
-      <Card className="min-w-80 h-full flex flex-col justify-end mx-auto p-4 pt-34 border-2 border-gray-300 rounded-xl bg-white/30 backdrop-blur-lg shadow-lg">
+      <Card className="min-w-80 h-full flex flex-col justify-end mx-auto p-4 pt-20 border-2 border-gray-300 rounded-xl bg-white/30 backdrop-blur-lg shadow-lg">
         <CardHeader>
+          <div>
+            <img src={appLogo} alt="App Logo" className="w-2=30 h-30 mx-auto mb-4 rounded xl" />
+          </div>
           <CardTitle className="text-white font-bold text-3xl">Login</CardTitle>
           <CardDescription className="text-white">
             Welcome back! Please enter your username and password to pick up where you left off.
