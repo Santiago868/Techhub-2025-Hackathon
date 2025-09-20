@@ -2,9 +2,9 @@ import type { Route } from "./+types/event.$id";
 import { useLoaderData, Link } from "react-router";
 import { redirect } from "react-router";
 import EventCard from "../components/EventCard";
-import { EventInformation, OrganizationAbout, EventSponsors } from "../components/events";
 import { getEvents } from "~/utils/eventsUtils";
 import type { Event } from "~/schemas/eventsSchema";
+import { EventInformation, OrganizationAbout, EventSponsors } from "../components/events";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { eventId } = params;
