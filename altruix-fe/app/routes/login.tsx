@@ -1,6 +1,6 @@
 
 import Login from "~/components/Login";
-import { handleAuth } from "~/utils/auth";
+import { handleAuth } from "../utils/auth";
 import { getSession, commitSession } from "~/sessions.server";
 
 export async function action({ request }: { request: Request }) {
@@ -38,7 +38,6 @@ export async function action({ request }: { request: Request }) {
 export default function LoginRoute() {
   return (
     <div>
-      <h1>Login</h1>
       <Login />
     </div>
   );
