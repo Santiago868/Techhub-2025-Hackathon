@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 export default function Menu() {
   return (
-    <nav className="menu bg-gray-800 text-white p-4">
+    <nav className="menu bg-[#5D8D55] text-white p-4">
       <div className="container mx-auto">
         <ul className="flex space-x-6 items-center">
           <li>
