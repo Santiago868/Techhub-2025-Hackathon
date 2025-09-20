@@ -20,7 +20,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Altruix - Home" },
+    { title: "Altruva" },
     { name: "description", content: "Discover and participate in community volunteer events" },
   ];
 }
@@ -46,13 +46,15 @@ export default function Home() {
     })
   }));
 
+  const glassStyle = "border-2 border-gray-300 rounded-xl bg-white/30 bg-transparent backdrop-blur-lg shadow-lg p-6";
+
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-6">Home</h1>
+    <div className="container w-full mx-auto -mt-4 bg-white">
+      <h1 className="text-4xl text-center font-bold mb-6">Home</h1>
       
       {sessionData.user ? (
         <div className="mb-8">
-          <p className="text-lg">Welcome, {sessionData.user.name}!</p>
+          <p className="text-lg text-center">Welcome, {sessionData.user.name}!</p>
         </div>
       ) : (
         <p className="mb-8">Welcome! Please log in to access personalized features.</p>
